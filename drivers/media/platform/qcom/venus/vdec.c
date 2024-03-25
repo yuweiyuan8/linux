@@ -1659,6 +1659,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
 	dst_vq->min_buffers_needed = 0;
 	dst_vq->dev = inst->core->dev;
 	dst_vq->lock = &inst->ctx_q_lock;
+	dst_vq->allow_cache_hints = 1;
 	return vb2_queue_init(dst_vq);
 }
 

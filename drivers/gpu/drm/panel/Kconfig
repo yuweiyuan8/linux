@@ -8,6 +8,15 @@ config DRM_PANEL
 menu "Display Panels"
 	depends on DRM && DRM_PANEL
 
+config DRM_PANEL_XIAOMI_UMI_CSOT
+	tristate "Xiaomi Mi 10 (umi) 1080x2340 CSOT AMOLED panel"
+	depends on OF
+	depends on DRM_MIPI_DSI
+	depends on BACKLIGHT_CLASS_DEVICE
+	help
+	  Say Y here if you want to enable support for the CSOT 1080x2340
+	  dsc cmd mode panel as found in Xiaomi Mi 10 devices.
+
 config DRM_PANEL_ABT_Y030XX067A
 	tristate "ABT Y030XX067A 320x480 LCD panel"
 	depends on OF && SPI
