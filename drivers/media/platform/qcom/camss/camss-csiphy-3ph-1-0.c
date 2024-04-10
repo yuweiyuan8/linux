@@ -864,6 +864,7 @@ static bool csiphy_is_gen2(u32 version)
 	bool ret = false;
 
 	switch (version) {
+	case CAMSS_7150:
 	case CAMSS_7280:
 	case CAMSS_8250:
 	case CAMSS_8280XP:
