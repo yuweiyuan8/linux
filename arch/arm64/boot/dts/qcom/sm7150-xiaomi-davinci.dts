@@ -124,12 +124,14 @@
 
 &camss {
 	ports {
+		/*
 		port@2 {
 			csiphy2_ep: endpoint  {
 				data-lanes = <0 1>;
 				remote-endpoint = <&s5k3l6xx_ep>;
 			};
 		};
+		*/
 
 		port@3 {
 			csiphy3_ep: endpoint {
@@ -168,7 +170,7 @@
 			ov8856_ep: endpoint {
 				link-frequencies = /bits/ 64
 					<720000000 360000000>;
-				data-lanes = <1 2>;
+				data-lanes = <0 1>;
 				remote-endpoint = <&csiphy3_ep>;
 			};
 		};
@@ -181,6 +183,7 @@
 		    <&mclk1_active>;
 };
 
+/*
 &cci1_i2c0 {
 	camera@10 {
 		compatible = "samsung,s5k3l6xx";
@@ -206,6 +209,7 @@
 		};
 	};
 };
+*/
 
 &framebuffer {
 	reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;

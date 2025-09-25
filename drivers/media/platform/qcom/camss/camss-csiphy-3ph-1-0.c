@@ -950,6 +950,10 @@ static int csiphy_init(struct csiphy_device *csiphy)
 		regs->lane_regs = &lane_regs_sdm845[0];
 		regs->lane_array_size = ARRAY_SIZE(lane_regs_sdm845);
 		break;
+	case CAMSS_7150:
+		regs->lane_regs = &lane_regs_sm7150[0];
+		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm7150);
+		break;
 	case CAMSS_7280:
 	case CAMSS_8250:
 		regs->lane_regs = &lane_regs_sm8250[0];

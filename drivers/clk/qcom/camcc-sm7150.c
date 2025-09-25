@@ -634,8 +634,10 @@ static struct clk_rcg2 camcc_icp_clk_src = {
 };
 
 static const struct freq_tbl ftbl_camcc_ife_0_clk_src[] = {
+	/*
 	F(19200000, P_BI_TCXO, 1, 0, 0),
 	F(380000000, P_CAMCC_PLL3_OUT_EVEN, 1, 0, 0),
+	*/
 	F(510000000, P_CAMCC_PLL3_OUT_EVEN, 1, 0, 0),
 	F(637000000, P_CAMCC_PLL3_OUT_EVEN, 1, 0, 0),
 	F(760000000, P_CAMCC_PLL3_OUT_EVEN, 1, 0, 0),
