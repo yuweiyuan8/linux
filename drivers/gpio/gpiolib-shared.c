@@ -452,7 +452,7 @@ int gpio_device_setup_shared(struct gpio_device *gdev)
 		if (list_count_nodes(&entry->refs) <= 1)
 			continue;
 
-		flags = &gdev->descs[entry->offset].flags;
+		flags = &gdev->descs[entry->offset - 1].flags;
 
 		__set_bit(GPIOD_FLAG_SHARED, flags);
 		/*
