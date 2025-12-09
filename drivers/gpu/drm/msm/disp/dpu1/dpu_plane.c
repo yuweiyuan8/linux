@@ -1803,6 +1803,8 @@ static const struct drm_plane_helper_funcs dpu_plane_helper_funcs = {
 		.cleanup_fb = dpu_plane_cleanup_fb,
 		.atomic_check = dpu_plane_atomic_check,
 		.atomic_update = dpu_plane_atomic_update,
+		.get_scanout_buffer = msm_get_scanout_buffer,
+		.panic_flush = msm_panic_flush,
 };
 
 static const struct drm_plane_helper_funcs dpu_plane_virtual_helper_funcs = {

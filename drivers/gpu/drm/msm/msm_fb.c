@@ -10,6 +10,7 @@
 #include <drm/drm_fourcc.h>
 #include <drm/drm_framebuffer.h>
 #include <drm/drm_gem_framebuffer_helper.h>
+#include <drm/drm_panic.h>
 #include <drm/drm_probe_helper.h>
 
 #include "msm_drv.h"
@@ -244,6 +245,67 @@ fail:
 	kfree(msm_fb);
 
 	return ERR_PTR(ret);
+}
+
+int msm_get_scanout_buffer(struct drm_plane *plane,
+			   struct drm_scanout_buffer *sb)
+{
+	struct drm_framebuffer *fb;
+	struct msm_framebuffer *msm_fb;
+	struct drm_gem_object *gem;
+	void *vaddr;
+
+	/* Only valid on the primary plane */
+	if (plane->index != 0)
+		return -EINVAL;
+
+	/* No framebuffer bound? Nothing to scan out */
+	fb = plane->state ? plane->state->fb : NULL;
+	if (!fb)
+		return -ENOENT;
+
+	msm_fb = to_msm_framebuffer(fb);
+	gem = msm_fb->base.obj[0];
+	if (!gem)
+		return -EINVAL;
+
+	/* Map CPU pointer to scanout BO */
+	vaddr = msm_gem_get_vaddr(gem);
+
+	if (!vaddr)
+		return -ENOMEM;
+
+	sb->map[0].vaddr = vaddr;
+	sb->format       = drm_format_info(fb->format->format);
+	sb->width        = fb->width;
+	sb->height       = fb->height;
+	sb->pitch[0]     = fb->pitches[0];
+
+	return 0;
+}
+
+void msm_panic_flush(struct drm_plane *plane)
+{
+	struct drm_framebuffer *fb;
+	struct msm_framebuffer *msm_fb;
+	struct drm_gem_object *gem;
+
+	/* Only the primary plane is meaningful for panic display */
+	if (plane->index != 0)
+		return;
+
+	/* Plane may not have a state in panic context */
+	fb = plane->state ? plane->state->fb : NULL;
+	if (!fb)
+		return;
+
+	msm_fb = to_msm_framebuffer(fb);
+	gem = msm_fb->base.obj[0];
+	if (!gem)
+		return;
+
+	msm_gem_cpu_prep(gem, MSM_PREP_WRITE, NULL);
+	msm_gem_cpu_fini(gem);
 }
 
 struct drm_framebuffer *

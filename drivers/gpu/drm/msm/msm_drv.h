@@ -557,4 +557,9 @@ bool msm_disp_drv_should_bind(struct device *dev, bool dpu_driver);
 
 bool msm_gpu_no_components(void);
 
+/* DRM panic */
+int msm_get_scanout_buffer(struct drm_plane *plane,
+                           struct drm_scanout_buffer *sb);
+void msm_panic_flush(struct drm_plane *plane);
+
 #endif /* __MSM_DRV_H__ */
